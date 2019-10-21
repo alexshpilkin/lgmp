@@ -18,10 +18,19 @@ dependencies = {
   "lua >= 5.1, < 5.4"
 }
 
+external_dependencies = {
+  GMP = {
+    header = "gmp.h"
+  }
+}
+
 build = {
   type = "builtin",
   modules = {
     gmp = "gmp.lua",
-    ["c-gmp"] = "lgmp.c"
+    ["c-gmp"] = {
+      sources = {"lgmp.c"},
+      libraries = {"gmp"}
+    }
   }
 }
