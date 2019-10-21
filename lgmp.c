@@ -2467,6 +2467,20 @@ static const luaL_Reg lgmp_prv[] =
 	{NULL, NULL}
 };
 
+#if LUA_VERSION_NUM == 501
+static void lgmp_setfuncs(lua_State *L, const luaL_Reg *l, int nup){
+  luaL_checkstack(L, nup+1, "too many upvalues");
+  for (; l->name != NULL; l++) {  /* fill the table with given functions */
+    int i;
+    lua_pushstring(L, l->name);
+    for (i = 0; i < nup; i++)  /* copy upvalues to the top */
+      lua_pushvalue(L, -(nup+1));
+    lua_pushcclosure(L, l->func, nup);  /* closure with those upvalues */
+    lua_settable(L, -(nup + 3));
+  }
+  lua_pop(L, nup);  /* remove upvalues */
+}
+#endif
 
 static int lgmp_initialize(lua_State *L)
 {
@@ -2485,7 +2499,11 @@ static int lgmp_initialize(lua_State *L)
 	lua_pushvalue(L, 1);
 	lua_pushvalue(L, 2);
 
-	luaL_setfuncs(L, lgmp_prv, 1);
+#if LUA_VERSION_NUM > 501
+  luaL_setfuncs(L, lgmp_prv, 1);
+#else
+  lgmp_setfuncs(L, lgmp_prv, 1);
+#endif
 
 	return 0;
 }
