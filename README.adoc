@@ -1,0 +1,3 @@
+= lgmp
+
+This is a fork and distribution improvement for a disappeared `lgmp` GMP bindings module (http://members.chello.nl/~w.couwenberg/).
