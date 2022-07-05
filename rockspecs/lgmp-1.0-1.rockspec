@@ -15,7 +15,7 @@ https://gmplib.org/
 }
 
 dependencies = {
-  "lua >= 5.1, < 5.4"
+  "lua >= 5.2, < 5.5"
 }
 
 external_dependencies = {
@@ -30,7 +30,9 @@ build = {
     gmp = "gmp.lua",
     ["c-gmp"] = {
       sources = {"lgmp.c"},
-      libraries = {"gmp"}
+      libraries = {"gmp"},
+      incdirs = {"$(GMP_INCDIR)"},
+      libdirs = {"$(GMP_LIBDIR)"},
     }
   }
 }
