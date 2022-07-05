@@ -23,6 +23,7 @@ local tostring = tostring
 local tonumber = tonumber
 
 local _ENV = {}
+if setfenv then setfenv(1, _ENV) end
 
 local prv = {}
 local aux = {}
